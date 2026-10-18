@@ -1,0 +1,16 @@
+{
+  "id": "./",
+  "name": "精神衛生護理學國考練習",
+  "short_name": "精神護理國考",
+  "lang": "zh-Hant",
+  "description": "16個精神衛生護理單元，五題五年份，送出後對照官方答案。",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fafbf7",
+  "theme_color": "#214d40",
+  "icons": [
+    {"src": "./icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
+    {"src": "./icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+  ]
+}
