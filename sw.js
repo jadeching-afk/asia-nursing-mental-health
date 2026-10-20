@@ -1,7 +1,7 @@
 // Bump the version whenever any precached file changes. New versions activate
 // after existing app windows close, preserving an in-progress quiz.
 const PREFIX = 'asia-mental-nursing-pwa-';
-const CACHE = PREFIX + '20261018-v1';
+const CACHE = PREFIX + '20261020-v2';
 const ASSETS = [
   './', './index.html', './styles.css', './app.mjs', './bank.mjs', './quiz.mjs',
   './pwa.mjs', './manifest.webmanifest', './apple-touch-icon.png',

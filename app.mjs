@@ -20,7 +20,7 @@ const icon = (name) => {
   return `<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[name] || paths.book}</svg>`;
 };
 const esc = (text) => String(text ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
-const sourceLabel = q => `${q.year}年${['','第一次','第二次','第三次'][q.nth]}・第${q.num}題`;
+const sourceLabel = q => `${q.year}年${q.examLabel || ['','第一次','第二次','第三次'][q.nth]}・第${q.num}題`;
 function readHistory() {
   try {
     const history = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
@@ -43,7 +43,7 @@ function header() {
   </div></header>`;
 }
 function footer() {
-  return `<footer class="site-footer"><div class="shell footer-inner"><details><summary>題庫來源與練習說明</summary><p>題目來源：考選部公開之護理師國考「精神科與社區衛生護理學」，110–115年共15場、489題。依課程16類單元整理，答案已套用官方更正；歷年法規與政策題依當次試卷及官方答案呈現。資料核對日期：115年10月17日。115年第三次尚未收錄。4題飲食障礙症納入CH22延伸題。</p><p>本網站提供自主練習，不蒐集姓名或學號。練習紀錄只儲存在目前瀏覽器，最多保留100回；清除瀏覽器資料後紀錄會一併清除。此網站為課程練習工具。</p><p>考選部網站引用宣示：本網站資料，歡迎朋友連結使用。但引用時，請註明資料來源並請確保資料之完整（包括本項宣示在內），均不得任意增刪</p><p><a href="https://wwwq.moex.gov.tw/exam/wFrmExamQandASearch.aspx" target="_blank" rel="noopener noreferrer">前往考選部考畢試題查詢平臺 ${icon('external')}</a></p></details><div class="footer-right">一步一題，穩穩前進。</div></div></footer>`;
+  return `<footer class="site-footer"><div class="shell footer-inner"><details><summary>題庫來源與練習說明</summary><p>題目來源：考選部公開之護理師國考「精神科與社區衛生護理學」，106–115年共24份試卷、863題。依課程16類單元整理，答案已套用官方更正；歷年法規與政策題依當次試卷及官方答案呈現。資料核對日期：115年10月20日。115年第三次尚未收錄。10題飲食障礙症納入CH22延伸題。</p><p>本網站提供自主練習，不蒐集姓名或學號。練習紀錄只儲存在目前瀏覽器，最多保留100回；清除瀏覽器資料後紀錄會一併清除。此網站為課程練習工具。</p><p>考選部網站引用宣示：本網站資料，歡迎朋友連結使用。但引用時，請註明資料來源並請確保資料之完整（包括本項宣示在內），均不得任意增刪</p><p><a href="https://wwwq.moex.gov.tw/exam/wFrmExamQandASearch.aspx" target="_blank" rel="noopener noreferrer">前往考選部考畢試題查詢平臺 ${icon('external')}</a></p></details><div class="footer-right">一步一題，穩穩前進。</div></div></footer>`;
 }
 function unitCards() {
   const needle = state.search.trim().toLowerCase().replace(/\s/g, '');
@@ -52,14 +52,14 @@ function unitCards() {
   return filtered.map(c => `<article class="unit-card"><div class="unit-card-top"><span class="chapter-code">${esc(c.code)}</span><span class="unit-number">${String(chapters.indexOf(c) + 1).padStart(2,'0')}</span></div><h3>${esc(c.displayTitle)}</h3>${c.subtitle ? `<p class="unit-subtitle">${esc(c.subtitle)}</p>` : ''}<div class="unit-meta"><span>${c.count}題</span><span>${c.years.length}個年份</span>${c.id === 'O' ? '<span>含延伸題</span>' : ''}</div><div class="card-bottom"><small>同一單元 · 五年五題</small><button class="text-button" data-action="start" data-chapter="${c.id}" aria-label="開始${esc(c.displayTitle)}五題練習">開始練習 ${icon('arrow')}</button></div></article>`).join('');
 }
 function home() {
-  return `<main id="main" class="shell"><section class="hero"><div><div class="eyebrow">國考準備，從一個單元開始</div><h1>精神衛生護理學<br>每次五題，累積你的把握。</h1><p>選擇課程單元，以<em>不同年份的國考原題</em>練習。<br>完成整回再對答案，讓每一次練習都有收穫。</p><div class="stats"><div class="stat"><strong>489</strong><small>國考原題</small></div><div class="stat"><strong>16</strong><small>課程單元</small></div><div class="stat"><strong>110–115</strong><small>民國年度</small></div></div></div><aside class="routine" aria-label="每回練習規則"><div class="routine-top"><span>給自己一小段專注時間</span>${icon('book')}</div><div class="large-five">5<small>題，一回練習</small></div><div class="routine-bottom"><span>同一單元 · 五個不同年份</span><span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span></div></aside></section>
+  return `<main id="main" class="shell"><section class="hero"><div><div class="eyebrow">國考準備，從一個單元開始</div><h1>精神衛生護理學<br>每次五題，累積你的把握。</h1><p>選擇課程單元，以<em>不同年份的國考原題</em>練習。<br>完成整回再對答案，讓每一次練習都有收穫。</p><div class="stats"><div class="stat"><strong>863</strong><small>國考原題</small></div><div class="stat"><strong>16</strong><small>課程單元</small></div><div class="stat"><strong>106–115</strong><small>民國年度</small></div></div></div><aside class="routine" aria-label="每回練習規則"><div class="routine-top"><span>給自己一小段專注時間</span>${icon('book')}</div><div class="large-five">5<small>題，一回練習</small></div><div class="routine-bottom"><span>同一單元 · 五個不同年份</span><span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span></div></aside></section>
     <div class="intro-line">${icon('shield')}<span>練習期間不揭曉答案。完成5題並送出後，即可查看成績、正確答案與官方更正說明。</span></div>
     <details class="install-guide"><summary><span>加入 iPhone 主畫面</span><small>隨時開啟，像 App 一樣練習</small></summary><div class="install-body"><ol><li>用 iPhone 的 <strong>Safari</strong> 開啟本網站。</li><li>點選「分享」按鈕，再選擇<strong>「加入主畫面」</strong>。</li><li>若出現「以網頁 App 打開」，請開啟此選項，再點<strong>「加入」</strong>。</li></ol><p>主畫面會出現「精神護理國考」圖示。首次請連網開啟，等頁尾顯示「已可離線練習」後，即可離線刷題。原始試題連結需要網路；練習紀錄只保存在目前 App 或瀏覽器中。</p></div></details>
     <section aria-labelledby="units-title"><div class="section-top"><div><h2 id="units-title">今天，想練習哪個單元？</h2><p>依課程章節選擇，每回隨機抽出5個不同年份的題目。</p></div><label class="search">${icon('search')}<span class="visually-hidden">搜尋章節或單元</span><input id="unit-search" type="search" placeholder="搜尋章節或單元" value="${esc(state.search)}" autocomplete="off"></label></div><div id="unit-grid" class="unit-grid">${unitCards()}</div></section></main>`;
 }
 function context(q) {
   if (!q.context) return '';
-  return `<aside class="context"><strong>前題情境 · ${q.year}年${['','第一次','第二次','第三次'][q.nth]}第${q.context.num}題</strong>${esc(q.context.stem)}</aside>`;
+  return `<aside class="context"><strong>${esc(q.context.label || '前題情境')} · ${q.year}年${q.examLabel || ['','第一次','第二次','第三次'][q.nth]}第${q.context.num}題</strong>${esc(q.context.stem)}</aside>`;
 }
 function quiz() {
   const c = chapterById[state.chapter], q = state.round[state.index];
